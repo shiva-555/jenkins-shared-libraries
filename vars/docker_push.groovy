@@ -2,7 +2,7 @@ def call(String imageName, String imageTag, String region) {
 
     withCredentials([
         [$class: 'AmazonWebServicesCredentialsBinding',
-         credentialsId: 'aws-creds']
+         credentialsId: 'aws-cred']
     ]) {
 
         sh """
