@@ -1,5 +1,6 @@
-def call(String ProjectName, String ImageTag, String DockerHubUser) {    
+def call(String ProjectName, String ImageTag, String AwsAccountId, String AwsRegion) {
+
     sh """
-        docker build -t ${DockerHubUser}/${ProjectName}:${imageTag} .
+        docker build -t ${AwsAccountId}.dkr.ecr.${AwsRegion}.amazonaws.com/${ProjectName}:${ImageTag} .
     """
 }
