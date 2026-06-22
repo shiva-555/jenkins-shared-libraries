@@ -1,0 +1,13 @@
+def call(String projectKey, String sourcePath='.') {
+
+    withSonarQubeEnv('sonarqube') {
+
+        sh """
+            sonar-scanner \
+            -Dsonar.projectKey=${projectKey} \
+            -Dsonar.projectName=${projectKey} \
+            -Dsonar.sources=${sourcePath} \
+            -Dsonar.sourceEncoding=UTF-8
+        """
+    }
+}
