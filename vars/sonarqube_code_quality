@@ -1,13 +1,13 @@
-def call(String projectKey, String sourcePath='.') {
+def call() {
 
-    withSonarQubeEnv('sonarqube') {
+    timeout(time: 5, unit: 'MINUTES') {
 
-        sh """
-            sonar-scanner \
-            -Dsonar.projectKey=${projectKey} \
-            -Dsonar.projectName=${projectKey} \
-            -Dsonar.sources=${sourcePath} \
-            -Dsonar.sourceEncoding=UTF-8
-        """
+        def qualityGate = waitForQualityGate()
+
+        if (qualityGate.status != 'OK') {
+            error "Pipeline aborted due to Quality Gate failure: ${qualityGate.status}"
+        }
+
+        echo "Quality Gate Passed: ${qualityGate.status}"
     }
 }
