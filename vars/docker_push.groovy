@@ -1,11 +1,15 @@
-// vars/pushDockerImage.groovy
+def call(String imageName, String imageTag, String region) {
 
-def call(String EcrRepoUri, String ImageTag, String AwsRegion) {
+    withCredentials([
+        [$class: 'AmazonWebServicesCredentialsBinding',
+         credentialsId: 'aws-creds']
+    ]) {
 
-    sh """
-        aws ecr get-login-password --region ${AwsRegion} | \
-        docker login --username AWS --password-stdin ${EcrRepoUri.split('/')[0]}
+        sh """
+            aws ecr get-login-password --region ${region} | \
+            docker login --username AWS --password-stdin ${imageName.split('/')[0]}
 
-        docker push ${EcrRepoUri}:${ImageTag}
-    """
+            docker push ${imageName}:${imageTag}
+        """
+    }
 }
